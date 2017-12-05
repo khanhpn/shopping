@@ -1,11 +1,25 @@
 import React, { Component } from 'react'
 
 export default class Product extends Component {
+  constructor(props) {
+    super(props);
+    this.onClickButton = this.onClickButton.bind(this);
+  }
+  onClickButton() {
+    console.log(this.props.price);
+  }
+
+  onClickButton2(text) {
+    console.log(text);
+  }
+
+  onClickButton1 = () => {
+    console.log(this.props.price);
+  }
   showButtonCart(status) {
     if(status == "true") {
       return(
         <div className="card-block">
-          <a href="#" className="btn btn-success">Mua hàng</a>
         </div>
       );
     }
@@ -25,6 +39,8 @@ export default class Product extends Component {
         <ul className="list-group list-group-flush">
           <li className="list-group-item">{this.props.price} vnd</li>
         </ul>
+        <a className="btn btn-success"  onClick={this.onClickButton1}>Mua hàng</a>
+        <a className="btn btn-success"  onClick={() => {this.onClickButton2('Abc')}}>Mua hàng1</a>
         {this.showButtonCart(this.props.status)}
       </div>
     )

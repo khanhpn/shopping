@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Product from './components/Product';
+import Form from './components/Form';
 
 class App extends Component {
   render() {
@@ -39,7 +40,7 @@ class App extends Component {
 
     let elements = products.map((product, index) => {
       return(
-        <Product id={product.id} name={product.name} price={product.price} status={product.status}>
+        <Product id={product.id} name={product.name} price={product.price} status={product.status} key={index}>
         {product.description}
         </Product>
       );
@@ -52,7 +53,7 @@ class App extends Component {
             {elements}
           </div>
         </div>
-        
+        <Form />
       </div>
     );
   }
