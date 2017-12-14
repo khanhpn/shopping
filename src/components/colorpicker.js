@@ -17,9 +17,17 @@ export default class ColorPicker extends Component {
     };
   }
 
+  setActiveColor(color) {
+    this.props.onReceiveColor(color);
+  }
   render() {
     var elementColors = this.state.colors.map((color, index) => {
-      return <span key={index} style={this.showColor(color)}></span>
+      return <span
+        key={index}
+        style={this.showColor(color)}
+        className={this.props.color === color ? 'active' : ''}
+        onClick={() => this.setActiveColor(color)}
+      ></span>
     });
     return (
       <div className="col-sm-6">

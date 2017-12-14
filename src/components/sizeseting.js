@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 
 export default class SizeSetting extends Component {
+  changeSize(value) {
+    this.props.onChangeSize(value);
+  }
   render() {
     return (
       <div className="col-sm-6">
-        <div>Size: 15px</div>
+        <div>Size: {this.props.fontSize}px</div>
         <div>
-          <a href="" className="btn btn-success">Down</a>
-          <a href="" className="btn btn-primary">Up</a>
+          <button type="button" className="btn btn-success" onClick={() => this.changeSize(-2)}>Down</button>
+          <button type="button" className="btn btn-primary" onClick={() => this.changeSize(+2)}>Up</button>
         </div>
       </div>
     )
