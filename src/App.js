@@ -15,6 +15,7 @@ class App extends Component {
     };
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
+    this.onHandelReset = this.onHandelReset.bind(this);
   }
 
   onHandleChange(event) {
@@ -30,6 +31,18 @@ class App extends Component {
   onHandleSubmit(event) {
     event.preventDefault();
     console.log(this.state);
+  }
+
+  onHandelReset(event) {
+    event.preventDefault();
+    this.setState({
+      txtName: "",
+      txtPassword: "",
+      txtContent: "",
+      sltGender: 1,
+      rdLanguage: 'ja',
+      chkbStatus: true
+    });
   }
 
   render() {
@@ -58,11 +71,12 @@ class App extends Component {
                           type="password"
                           className="form-control"
                           name="txtPassword"
+                          value={this.state.txtPassword}
                           onChange={this.onHandleChange}/>
                       </div>
                       <div className="form-group">
                         <label>Content:</label>
-                        <textarea className="form-control" rows="3" name="txtContent" onChange={this.onHandleChange}></textarea>
+                        <textarea className="form-control" rows="3" name="txtContent" onChange={this.onHandleChange} value={this.state.txtContent}></textarea>
                       </div>
                       <label>Gender</label>
                       <select className="form-control" name="sltGender" value={this.state.sltGender} onChange={this.onHandleChange}>
@@ -102,7 +116,7 @@ class App extends Component {
                       <div className="form-group">
                         <button type="submit" className="btn btn-primary">Submit</button>
                         &nbsp;
-                        <button type="reset" className="btn btn-success">Reset</button>
+                        <button type="reset" className="btn btn-success" onClick={this.onHandelReset}>Reset</button>
                       </div>
                   </form>
                 </div>
