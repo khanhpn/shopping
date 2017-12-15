@@ -1,25 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="">
+
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-  </body>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>Quản Lý Công Việc</h1>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Thêm Công Việc</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Tên :</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                            <label>Trạng Thái :</label>
+                            <select class="form-control" required="required">
+                                <option value="1">Kích Hoạt</option>
+                                <option value="0">Ẩn</option>
+                            </select>
+                            <br/>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-warning">Thêm</button>&nbsp;
+                                <button type="submit" class="btn btn-danger">Hủy Bỏ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <button type="button" class="btn btn-primary">
+                    <span class="fa fa-plus mr-5"></span>Thêm Công Việc
+                </button>
+                <div class="row mt-15">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Nhập từ khóa..." />
+                            <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button">
+                                            <span class="fa fa-search mr-5"></span>Tìm
+                            </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Sắp Xếp <span class="fa fa-caret-square-o-down ml-5"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <a role="button">
+                                                <span class="fa fa-sort-alpha-asc pr-5">
+                                                    Tên A-Z
+                                                </span>
+                                            </a>
+                                </li>
+                                <li>
+                                    <a role="button">
+                                                <span class="fa fa-sort-alpha-desc pr-5">
+                                                    Tên Z-A
+                                                </span>
+                                            </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li><a role="button">Trạng Thái Kích Hoạt</a></li>
+                                <li><a role="button">Trạng Thái Ẩn</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-15">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Tên</th>
+                                    <th class="text-center">Trạng Thái</th>
+                                    <th class="text-center">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="text" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="-1">Tất Cả</option>
+                                            <option value="0">Ẩn</option>
+                                            <option value="1">Kích Hoạt</option>
+                                        </select>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Học lập trình</td>
+                                    <td class="text-center">
+                                        <span class="label label-success">
+                                                    Kích Hoạt
+                                                </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-warning">
+                                            <span class="fa fa-pencil mr-5"></span>Sửa
+                                        </button>
+                                        &nbsp;
+                                        <button type="button" class="btn btn-danger">
+                                            <span class="fa fa-trash mr-5"></span>Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+
 </html>
