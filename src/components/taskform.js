@@ -5,7 +5,7 @@ export default class TaskForm extends Component {
     return (
         <div className="panel panel-warning">
             <div className="panel-heading">
-                <h3 className="panel-title">Thêm Công Việc</h3>
+                <h3 className="panel-title"><span className="fa fa-trash mr-5" aria-hidden="true"></span>Thêm Công Việc</h3>
             </div>
             <div className="panel-body">
                 <form>
@@ -20,8 +20,8 @@ export default class TaskForm extends Component {
                     </select>
                     <br/>
                     <div className="text-center">
-                        <button type="submit" className="btn btn-warning">Thêm</button>&nbsp;
-                        <button type="submit" className="btn btn-danger">Hủy Bỏ</button>
+                        <button type="submit" className="btn btn-warning"><span className="fa fa-pencil mr-5"></span>Thêm</button>&nbsp;
+                        <button type="submit" className="btn btn-danger"><span className="fa fa-trash mr-5"></span>Hủy Bỏ</button>
                     </div>
                 </form>
             </div>

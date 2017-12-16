@@ -4,7 +4,7 @@ import TaskItem from './taskitem';
 export default class TaskList extends Component {
   render() {
     return (
-        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">
             <table className="table table-bordered table-hover">
                 <thead>
                     <tr>
