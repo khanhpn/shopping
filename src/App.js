@@ -47,7 +47,7 @@ class App extends Component {
         status: true
       }
     ];
-    
+
     this.setState({
       tasks: tasks
     });
@@ -69,12 +69,47 @@ class App extends Component {
   }
 
   onCloseForm = () => {
-    console.log("test");
+    this.setState({
+      isDisplayForm: false
+    });
+  }
+
+  onAddJob = (data) => {
+    var { tasks } = this.state;
+    data.id = this.generateID();
+    tasks.push(data);
+    this.setState({
+      tasks: tasks
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  onUpdateStatus = (id) => {
+    var { tasks } = this.state;
+    var index = this.findIndex(id);
+    if (index !== -1) {
+      tasks[index].status = !tasks[index].status;
+      this.setState({
+        task: tasks
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+  }
+
+  findIndex = (id) => {
+    var { tasks } = this.state;
+    var result = -1;
+    tasks.forEach((task, index) => {
+      if (task.id === id) {
+        result = index;
+      }
+    })
+    return result;
   }
 
   render() {
     var {tasks, isDisplayForm} = this.state;
-    var elmTaskForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm} /> : "" ;
+    var elmTaskForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm} onAddJob={this.onAddJob} /> : "" ;
     return (
       <div className="container">
         <div className="text-center">
@@ -94,7 +129,7 @@ class App extends Component {
                 </button>
                 <Control />
                 <div className="row mt-15">
-                    <TaskList tasks={tasks}/>
+                  <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus}/>
                 </div>
             </div>
         </div>
