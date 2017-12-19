@@ -10,7 +10,11 @@ class App extends Component {
     this.state = {
       tasks: [],
       isDisplayForm: false,
-      taskEditing: null
+      taskEditing: null,
+      filter: {
+        name: '',
+        status: -1
+      }
     };
     this.generateData = this.generateData.bind(this);
   }
@@ -146,8 +150,35 @@ class App extends Component {
     });
   }
 
+  onFilter = (filterName, filterStatus) => {
+    filterStatus = parseInt(filterStatus, 10);
+    console.log(filterName + '-' + filterStatus);
+    this.setState({
+      filter: {
+        name: filterName.toLowerCase(),
+        status: filterStatus
+      }
+    });
+  }
+
   render() {
-    var {tasks, isDisplayForm, taskEditing} = this.state;
+    var { tasks, isDisplayForm, taskEditing, filter } = this.state;
+    if (filter) {
+      if (filter.name) {
+        tasks = tasks.filter((task) => {
+          return task.name.toLowerCase().indexOf(filter.name) !== -1;
+        });
+      }
+      if (filter.status) {
+        tasks = tasks.filter((task) => {
+          if (filter.status === -1) {
+            return task;
+          } else {
+            return task.status === filter.status;
+          }
+        });
+      }
+    }
     var elmTaskForm = isDisplayForm ?
       <TaskForm onCloseForm={this.onCloseForm}
         onAddJob={this.onAddJob}
@@ -155,29 +186,30 @@ class App extends Component {
     return (
       <div className="container">
         <div className="text-center">
-            <h1>Quản Lý Công Việc</h1>
-            <hr/>
+          <h1>Quản Lý Công Việc</h1>
+          <hr/>
         </div>
         <div className="row">
-            <div className={isDisplayForm ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""}>
-              {elmTaskForm}
+          <div className={isDisplayForm ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""}>
+            {elmTaskForm}
+          </div>
+          <div className={isDisplayForm ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
+            <button type="button" className="btn btn-primary mr-5" onClick={this.onToggleForm}>
+              <span className="fa fa-plus mr-5"></span>Thêm Công Việc
+            </button>
+            <button type="button" className="btn btn-primary" onClick={this.generateData}>
+              <span className="fa fa-plus mr-5"></span>Generate data
+            </button>
+            <Control />
+            <div className="row mt-15">
+              <TaskList
+                tasks={tasks}
+                onUpdateStatus={this.onUpdateStatus}
+                onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}
+                onHandleEdit={this.onHandleEdit}
+                onFilter={this.onFilter} />
             </div>
-            <div className={isDisplayForm ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
-              <button type="button" className="btn btn-primary mr-5" onClick={this.onToggleForm}>
-                <span className="fa fa-plus mr-5"></span>Thêm Công Việc
-              </button>
-              <button type="button" className="btn btn-primary" onClick={this.generateData}>
-                <span className="fa fa-plus mr-5"></span>Generate data
-              </button>
-              <Control />
-              <div className="row mt-15">
-                <TaskList
-                  tasks={tasks}
-                  onUpdateStatus={this.onUpdateStatus}
-                  onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}
-                  onHandleEdit={this.onHandleEdit} />
-              </div>
-            </div>
+          </div>
         </div>
       </div>
     );
