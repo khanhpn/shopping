@@ -8,6 +8,11 @@ export default class TaskItem extends Component {
 	onHandleDelete = () => {
 		this.props.onHandleDeleteTaskList(this.props.task.id);
 	}
+
+	onHandleEdit = () => {
+		this.props.onHandleEdit(this.props.task.id);
+	}
+
   render() {
     var {task, index} = this.props;
     return (
@@ -22,7 +27,7 @@ export default class TaskItem extends Component {
                 </span>
             </td>
             <td className="text-center">
-                <button type="button" className="btn btn-warning">
+								<button type="button" className="btn btn-warning" onClick={this.onHandleEdit}>
                     <span className="fa fa-pencil mr-5"></span>Sửa
                 </button>
                 &nbsp;

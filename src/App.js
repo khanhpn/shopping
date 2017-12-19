@@ -9,7 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       tasks: [],
-      isDisplayForm: false
+      isDisplayForm: false,
+      taskEditing: null
     };
     this.generateData = this.generateData.bind(this);
   }
@@ -55,9 +56,17 @@ class App extends Component {
   }
 
   onToggleForm = (event) => {
-    this.setState({
-      isDisplayForm: !this.state.isDisplayForm
-    });
+    if (this.state.isDisplayForm && this.state.taskEditing !== null) {
+      this.setState({
+        isDisplayForm: true,
+        taskEditing: null
+      });
+    } else {
+      this.setState({
+        isDisplayForm: !this.state.isDisplayForm,
+        taskEditing: null
+      });
+    }
   }
 
   s4() {
@@ -76,10 +85,17 @@ class App extends Component {
 
   onAddJob = (data) => {
     var { tasks } = this.state;
-    data.id = this.generateID();
-    tasks.push(data);
+    if (data.id === '') {
+      data.id = this.generateID();
+      tasks.push(data);
+    } else {
+      var index = this.findIndex(data.id);
+      tasks[index] = data;
+    }
+
     this.setState({
-      tasks: tasks
+      tasks: tasks,
+      taskEditing: null
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
@@ -120,9 +136,22 @@ class App extends Component {
     this.onCloseForm();
   }
 
+  onHandleEdit = (id) => {
+    var { tasks } = this.state;
+    var index = this.findIndex(id);
+    var taskEditing = tasks[index];
+    this.setState({
+      taskEditing: taskEditing,
+      isDisplayForm: true
+    });
+  }
+
   render() {
-    var {tasks, isDisplayForm} = this.state;
-    var elmTaskForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm} onAddJob={this.onAddJob} /> : "" ;
+    var {tasks, isDisplayForm, taskEditing} = this.state;
+    var elmTaskForm = isDisplayForm ?
+      <TaskForm onCloseForm={this.onCloseForm}
+        onAddJob={this.onAddJob}
+        task={taskEditing}/> : "";
     return (
       <div className="container">
         <div className="text-center">
@@ -131,19 +160,23 @@ class App extends Component {
         </div>
         <div className="row">
             <div className={isDisplayForm ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ""}>
-                {elmTaskForm}
+              {elmTaskForm}
             </div>
             <div className={isDisplayForm ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
-                <button type="button" className="btn btn-primary mr-5" onClick={this.onToggleForm}>
-                    <span className="fa fa-plus mr-5"></span>Thêm Công Việc
-                </button>
-                <button type="button" className="btn btn-primary" onClick={this.generateData}>
-                  <span className="fa fa-plus mr-5"></span>Generate data
-                </button>
-                <Control />
-                <div className="row mt-15">
-                <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}/>
-                </div>
+              <button type="button" className="btn btn-primary mr-5" onClick={this.onToggleForm}>
+                <span className="fa fa-plus mr-5"></span>Thêm Công Việc
+              </button>
+              <button type="button" className="btn btn-primary" onClick={this.generateData}>
+                <span className="fa fa-plus mr-5"></span>Generate data
+              </button>
+              <Control />
+              <div className="row mt-15">
+                <TaskList
+                  tasks={tasks}
+                  onUpdateStatus={this.onUpdateStatus}
+                  onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}
+                  onHandleEdit={this.onHandleEdit} />
+              </div>
             </div>
         </div>
       </div>

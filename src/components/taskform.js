@@ -4,6 +4,7 @@ export default class TaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: '',
       name: '',
       status: true
     };
@@ -13,6 +14,32 @@ export default class TaskForm extends Component {
 
   onCloseForm = () => {
     this.props.onCloseForm();
+  }
+
+  componentWillMount() {
+    if (this.props.task) {
+      this.setState({
+        id: this.props.task.id,
+        name: this.props.task.name,
+        status: this.props.task.status
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps && nextProps.task) {
+      this.setState({
+        id: nextProps.task.id,
+        name: nextProps.task.name,
+        status: nextProps.task.status
+      });
+    } else if (nextProps && nextProps.task === null) {
+      this.setState({
+        id: '',
+        name: '',
+        status: true
+      });
+    }
   }
 
   onHandleClear = (event) => {
@@ -41,30 +68,39 @@ export default class TaskForm extends Component {
   }
 
   render() {
+    var { id } = this.state;
     return (
-        <div className="panel panel-warning">
-            <div className="panel-heading">
-                <h3 className="panel-title">Thêm Công Việc<span className="fa fa-times-circle" aria-hidden="true" onClick={this.onCloseForm}></span></h3>
-            </div>
-            <div className="panel-body">
-              <form onSubmit={this.onHandleSubmit}>
-                    <div className="form-group">
-                      <label>Tên :</label>
-                      <input type="text" className="form-control" name="name" value={this.state.name} onChange={this.onHanldeChange} />
-                    </div>
-                    <label>Trạng Thái :</label>
-                    <select className="form-control" required="required" name="status" value={this.state.status} onChange={this.onHanldeChange}>
-                      <option value={true}>Kích Hoạt</option>
-                      <option value={false}>Ẩn</option>
-                    </select>
-                    <br/>
-                    <div className="text-center">
-                        <button type="submit" className="btn btn-warning"><span className="fa fa-pencil mr-5"></span>Thêm</button>&nbsp;
-                        <button type="submit" className="btn btn-danger" onClick={this.onHandleClear}><span className="fa fa-trash mr-5"></span>Hủy Bỏ</button>
-                    </div>
-                </form>
-            </div>
+      <div className="panel panel-warning">
+        <div className="panel-heading">
+          <h3 className="panel-title">
+            {id !== '' ? "Update job" : "New job"}
+            <span className="fa fa-times-circle" aria-hidden="true" onClick={this.onCloseForm}></span>
+          </h3>
         </div>
+        <div className="panel-body">
+          <form onSubmit={this.onHandleSubmit}>
+            <div className="form-group">
+              <label>Tên :</label>
+              <input type="text" className="form-control" name="name" value={this.state.name} onChange={this.onHanldeChange} />
+            </div>
+            <label>Trạng Thái :</label>
+            <select
+              className="form-control"
+              required="required"
+              name="status"
+              value={this.state.status}
+              onChange={this.onHanldeChange}>
+              <option value={true}>Kích Hoạt</option>
+              <option value={false}>Ẩn</option>
+            </select>
+            <br/>
+            <div className="text-center">
+              <button type="submit" className="btn btn-warning"><span className="fa fa-pencil mr-5"></span>Thêm</button>&nbsp;
+              <button type="submit" className="btn btn-danger" onClick={this.onHandleClear}><span className="fa fa-trash mr-5"></span>Hủy Bỏ</button>
+            </div>
+          </form>
+        </div>
+      </div>
     )
   }
 }
