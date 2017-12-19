@@ -6,10 +6,11 @@ export default class TaskList extends Component {
     var {tasks} = this.props;
     var elementTasks = tasks.map((task, index) => {
         return <TaskItem
-            key={task.id}
-            index={index}
-            task={task}
-            onUpdateStatus={this.props.onUpdateStatus} />
+					key={task.id}
+					index={index}
+					task={task}
+					onUpdateStatus={this.props.onUpdateStatus}
+					onHandleDeleteTaskList={this.props.onHandleDeleteTaskApp}/>
     });
     return (
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-15">

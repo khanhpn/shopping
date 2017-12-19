@@ -4,6 +4,10 @@ export default class TaskItem extends Component {
   onUpdateStatus = () => {
     this.props.onUpdateStatus(this.props.task.id);
   }
+
+	onHandleDelete = () => {
+		this.props.onHandleDeleteTaskList(this.props.task.id);
+	}
   render() {
     var {task, index} = this.props;
     return (
@@ -22,7 +26,7 @@ export default class TaskItem extends Component {
                     <span className="fa fa-pencil mr-5"></span>Sửa
                 </button>
                 &nbsp;
-                <button type="button" className="btn btn-danger">
+                <button type="button" className="btn btn-danger" onClick={this.onHandleDelete}>
                     <span className="fa fa-trash mr-5"></span>Xóa
                 </button>
             </td>

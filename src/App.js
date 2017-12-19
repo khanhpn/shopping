@@ -107,6 +107,19 @@ class App extends Component {
     return result;
   }
 
+  onHandleDeleteTaskApp = (id) => {
+    var { tasks } = this.state;
+    var index = this.findIndex(id);
+    if (index !== -1) {
+      tasks.splice(index, 1);
+      this.setState({
+        tasks: tasks
+      })
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+    this.onCloseForm();
+  }
+
   render() {
     var {tasks, isDisplayForm} = this.state;
     var elmTaskForm = isDisplayForm ? <TaskForm onCloseForm={this.onCloseForm} onAddJob={this.onAddJob} /> : "" ;
@@ -129,7 +142,7 @@ class App extends Component {
                 </button>
                 <Control />
                 <div className="row mt-15">
-                  <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus}/>
+                <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}/>
                 </div>
             </div>
         </div>
