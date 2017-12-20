@@ -4,6 +4,7 @@ import TaskForm from './components/taskform';
 import Control from './components/control';
 import TaskList from './components/tasklist';
 import _ from 'lodash';
+import demo from './training/demo';
 
 class App extends Component {
   constructor(props) {
