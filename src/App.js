@@ -3,6 +3,7 @@ import './App.css';
 import TaskForm from './components/taskform';
 import Control from './components/control';
 import TaskList from './components/tasklist';
+import _ from 'lodash';
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +15,10 @@ class App extends Component {
       filter: {
         name: '',
         status: -1
-      }
+      },
+      keyword: '',
+      sortBy: 'name',
+      sortValue: -1
     };
     this.generateData = this.generateData.bind(this);
   }
@@ -106,7 +110,10 @@ class App extends Component {
 
   onUpdateStatus = (id) => {
     var { tasks } = this.state;
-    var index = this.findIndex(id);
+    // var index = this.findIndex(id);
+    var index = _.findIndex(tasks, (task) => {
+      return task.id === id;
+    });
     if (index !== -1) {
       tasks[index].status = !tasks[index].status;
       this.setState({
@@ -161,8 +168,26 @@ class App extends Component {
     });
   }
 
+  onSearch = (keyword) => {
+    this.setState({
+      keyword: keyword
+    });
+  }
+
+  onSort = (sortBy, sortValue) => {
+    this.setState({
+      sortBy: sortBy,
+      sortValue: sortValue
+    })
+  }
+
   render() {
-    var { tasks, isDisplayForm, taskEditing, filter } = this.state;
+    var {
+      tasks,
+      isDisplayForm,
+      taskEditing, filter, keyword,
+      sortBy, sortValue
+     } = this.state;
     if (filter) {
       if (filter.name) {
         tasks = tasks.filter((task) => {
@@ -174,11 +199,17 @@ class App extends Component {
           if (filter.status === -1) {
             return task;
           } else {
-            return task.status === filter.status;
+            return task.status === (filter.status === 1 ? true : false);
           }
         });
       }
     }
+    if (keyword) {
+      tasks = tasks.filter((task) => {
+        return task.name.toLowerCase().indexOf(keyword) !== -1;
+      });
+    }
+
     var elmTaskForm = isDisplayForm ?
       <TaskForm onCloseForm={this.onCloseForm}
         onAddJob={this.onAddJob}
@@ -200,7 +231,7 @@ class App extends Component {
             <button type="button" className="btn btn-primary" onClick={this.generateData}>
               <span className="fa fa-plus mr-5"></span>Generate data
             </button>
-            <Control />
+            <Control onSearch={this.onSearch} onSort={this.onSort} sortBy={sortBy} sortValue={sortValue}/>
             <div className="row mt-15">
               <TaskList
                 tasks={tasks}
