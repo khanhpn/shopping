@@ -1,28 +1,9 @@
-var initialState = {
-  status: false,
-  sort: {
-    by: 'name',
-    value: 1
-  }
-};
+import status from './status';
+import sort from './sort';
+import { combineReducers } from 'redux';
 
-var myReducer = (state = initialState, action) => {
-  console.log("call function" + state.status);
-  if (action.type === 'TOGGLE_STATUS') {
-    state.status = !state.status;
-  }
-  if (action.type === 'SORT') {
-    var {by, value} = action.sort;
-    var {status} = state;
-    state = {
-      status: status,
-      sort: {
-        by: by,
-        value: value
-      }
-    }
-  }
-  return state;
-}
-
+const myReducer = combineReducers({
+  status,
+  sort
+});
 export default myReducer;
