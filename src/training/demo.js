@@ -13,6 +13,17 @@ var myReducer = (state = initialState, action) => {
   if (action.type === 'TOGGLE_STATUS') {
     state.status = !state.status;
   }
+  if (action.type === 'SORT') {
+    var { by, value } = action.sort;
+    var { status } = state;
+    state = {
+      status: status,
+      sort: {
+        by: by,
+        value: value
+      }
+    }
+  }
   return state;
 }
 
@@ -28,3 +39,16 @@ store.dispatch(action);
 
 
 console.log(store.getState());
+
+
+// implement job to sort z-a
+var sort_action = {
+  type: 'SORT',
+  sort: {
+    by: 'name',
+    value: -1
+  }
+};
+
+store.dispatch(sort_action);
+console.log('sort:', store.getState());
