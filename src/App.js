@@ -9,7 +9,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
       isDisplayForm: false,
       taskEditing: null,
       filter: {
@@ -21,16 +20,6 @@ class App extends Component {
       sortValue: -1
     };
     this.generateData = this.generateData.bind(this);
-  }
-
-  componentWillMount() {
-    if(localStorage && localStorage.getItem('tasks')) {
-      var tasks = JSON.parse(localStorage.getItem('tasks'));
-      console.log("component will mount");
-      this.setState({
-        tasks: tasks
-      });
-    }
   }
 
   generateData(event) {
@@ -77,35 +66,10 @@ class App extends Component {
     }
   }
 
-  s4() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  }
-
-  generateID() {
-    return this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4();
-  }
-
   onCloseForm = () => {
     this.setState({
       isDisplayForm: false
     });
-  }
-
-  onAddJob = (data) => {
-    var { tasks } = this.state;
-    if (data.id === '') {
-      data.id = this.generateID();
-      tasks.push(data);
-    } else {
-      var index = this.findIndex(data.id);
-      tasks[index] = data;
-    }
-
-    this.setState({
-      tasks: tasks,
-      taskEditing: null
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
   onUpdateStatus = (id) => {
@@ -183,36 +147,34 @@ class App extends Component {
 
   render() {
     var {
-      tasks,
       isDisplayForm,
       taskEditing, filter, keyword,
       sortBy, sortValue
      } = this.state;
-    if (filter) {
-      if (filter.name) {
-        tasks = tasks.filter((task) => {
-          return task.name.toLowerCase().indexOf(filter.name) !== -1;
-        });
-      }
-      if (filter.status) {
-        tasks = tasks.filter((task) => {
-          if (filter.status === -1) {
-            return task;
-          } else {
-            return task.status === (filter.status === 1 ? true : false);
-          }
-        });
-      }
-    }
-    if (keyword) {
-      tasks = tasks.filter((task) => {
-        return task.name.toLowerCase().indexOf(keyword) !== -1;
-      });
-    }
+    // if (filter && false) {
+    //   if (filter.name) {
+    //     tasks = tasks.filter((task) => {
+    //       return task.name.toLowerCase().indexOf(filter.name) !== -1;
+    //     });
+    //   }
+    //   if (false && filter.status) {
+    //     tasks = tasks.filter((task) => {
+    //       if (filter.status === -1) {
+    //         return task;
+    //       } else {
+    //         return task.status === (filter.status === 1 ? true : false);
+    //       }
+    //     });
+    //   }
+    // }
+    // if (keyword && false) {
+    //   tasks = tasks.filter((task) => {
+    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
+    //   });
+    // }
 
     var elmTaskForm = isDisplayForm ?
       <TaskForm onCloseForm={this.onCloseForm}
-        onAddJob={this.onAddJob}
         task={taskEditing}/> : "";
     return (
       <div className="container">
@@ -234,7 +196,6 @@ class App extends Component {
             <Control onSearch={this.onSearch} onSort={this.onSort} sortBy={sortBy} sortValue={sortValue}/>
             <div className="row mt-15">
               <TaskList
-                tasks={tasks}
                 onUpdateStatus={this.onUpdateStatus}
                 onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}
                 onHandleEdit={this.onHandleEdit}
