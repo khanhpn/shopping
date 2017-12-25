@@ -26,7 +26,6 @@ class App extends Component {
   componentWillMount() {
     if(localStorage && localStorage.getItem('tasks')) {
       var tasks = JSON.parse(localStorage.getItem('tasks'));
-      console.log("component will mount");
       this.setState({
         tasks: tasks
       });
