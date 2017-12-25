@@ -233,7 +233,6 @@ class App extends Component {
             <Control onSearch={this.onSearch} onSort={this.onSort} sortBy={sortBy} sortValue={sortValue}/>
             <div className="row mt-15">
               <TaskList
-                tasks={tasks}
                 onUpdateStatus={this.onUpdateStatus}
                 onHandleDeleteTaskApp={this.onHandleDeleteTaskApp}
                 onHandleEdit={this.onHandleEdit}
