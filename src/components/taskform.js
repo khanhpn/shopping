@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import * as actions from '../actions/index';
 
-export default class TaskForm extends Component {
+class TaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +14,7 @@ export default class TaskForm extends Component {
     this.onHandleSubmit = this.onHandleSubmit.bind(this);
   }
 
-  onCloseForm = () => {
+  onExitForm = () => {
     this.props.onCloseForm();
   }
 
@@ -62,7 +64,7 @@ export default class TaskForm extends Component {
 
   onHandleSubmit(event) {
     event.preventDefault();
-    this.props.onAddJob(this.state);
+    this.props.onAddTask(this.state);
     this.onHandleClear(event);
     this.onCloseForm();
   }
@@ -74,7 +76,7 @@ export default class TaskForm extends Component {
         <div className="panel-heading">
           <h3 className="panel-title">
             {id !== '' ? "Update job" : "New job"}
-            <span className="fa fa-times-circle" aria-hidden="true" onClick={this.onCloseForm}></span>
+            <span className="fa fa-times-circle" aria-hidden="true" onClick={this.onExitForm}></span>
           </h3>
         </div>
         <div className="panel-body">
@@ -104,3 +106,21 @@ export default class TaskForm extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+  };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onAddTask: (task) => {
+      dispatch(actions.addTask(task));
+    },
+    onCloseForm: () => {
+      dispatch(actions.closeForm());
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);

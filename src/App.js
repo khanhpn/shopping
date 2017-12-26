@@ -3,14 +3,14 @@ import './App.css';
 import TaskForm from './components/taskform';
 import Control from './components/control';
 import TaskList from './components/tasklist';
+import { connect } from 'react-redux';
+import * as actions from './actions/index';
 import _ from 'lodash';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
-      isDisplayForm: false,
       taskEditing: null,
       filter: {
         name: '',
@@ -63,48 +63,26 @@ class App extends Component {
   }
 
   onToggleForm = (event) => {
-    if (this.state.isDisplayForm && this.state.taskEditing !== null) {
-      this.setState({
-        isDisplayForm: true,
-        taskEditing: null
-      });
-    } else {
-      this.setState({
-        isDisplayForm: !this.state.isDisplayForm,
-        taskEditing: null
-      });
-    }
+    this.props.onToggleForm();
+    // if (this.state.isDisplayForm && this.state.taskEditing !== null) {
+    //   this.setState({
+    //     isDisplayForm: true,
+    //     taskEditing: null
+    //   });
+    // } else {
+    //   this.setState({
+    //     isDisplayForm: !this.state.isDisplayForm,
+    //     taskEditing: null
+    //   });
+    // }
   }
 
-  s4() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  }
 
-  generateID() {
-    return this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4();
-  }
 
   onCloseForm = () => {
     this.setState({
       isDisplayForm: false
     });
-  }
-
-  onAddJob = (data) => {
-    var { tasks } = this.state;
-    if (data.id === '') {
-      data.id = this.generateID();
-      tasks.push(data);
-    } else {
-      var index = this.findIndex(data.id);
-      tasks[index] = data;
-    }
-
-    this.setState({
-      tasks: tasks,
-      taskEditing: null
-    });
-    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
   onUpdateStatus = (id) => {
@@ -182,37 +160,35 @@ class App extends Component {
 
   render() {
     var {
-      tasks,
-      isDisplayForm,
       taskEditing, filter, keyword,
       sortBy, sortValue
-     } = this.state;
-    if (filter) {
-      if (filter.name) {
-        tasks = tasks.filter((task) => {
-          return task.name.toLowerCase().indexOf(filter.name) !== -1;
-        });
-      }
-      if (filter.status) {
-        tasks = tasks.filter((task) => {
-          if (filter.status === -1) {
-            return task;
-          } else {
-            return task.status === (filter.status === 1 ? true : false);
-          }
-        });
-      }
-    }
-    if (keyword) {
-      tasks = tasks.filter((task) => {
-        return task.name.toLowerCase().indexOf(keyword) !== -1;
-      });
-    }
+    } = this.state;
+
+    var {isDisplayForm} = this.props;
+    // if (filter) {
+    //   if (filter.name) {
+    //     tasks = tasks.filter((task) => {
+    //       return task.name.toLowerCase().indexOf(filter.name) !== -1;
+    //     });
+    //   }
+    //   if (filter.status) {
+    //     tasks = tasks.filter((task) => {
+    //       if (filter.status === -1) {
+    //         return task;
+    //       } else {
+    //         return task.status === (filter.status === 1 ? true : false);
+    //       }
+    //     });
+    //   }
+    // }
+    // if (keyword) {
+    //   tasks = tasks.filter((task) => {
+    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
+    //   });
+    // }
 
     var elmTaskForm = isDisplayForm ?
-      <TaskForm onCloseForm={this.onCloseForm}
-        onAddJob={this.onAddJob}
-        task={taskEditing}/> : "";
+      <TaskForm /> : "";
     return (
       <div className="container">
         <div className="text-center">
@@ -245,4 +221,17 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isDisplayForm: state.isDisplayForm
+  };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onToggleForm: () => {
+      dispatch(actions.toggleForm());
+    }
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
