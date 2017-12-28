@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class CartItem extends Component {
+class CartItem extends Component {
   render() {
     return (
       <tr>
@@ -29,3 +29,4 @@ export default class CartItem extends Component {
     )
   }
 }
+export default CartItem;

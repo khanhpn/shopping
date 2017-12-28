@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Product from './Product';
 
-export default class Products extends Component {
+class Products extends Component {
   render() {
     return (
       <section className="section">
@@ -15,3 +15,4 @@ export default class Products extends Component {
     )
   }
 }
+export default Products;

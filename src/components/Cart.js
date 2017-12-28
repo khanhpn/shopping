@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CartItem from './CartItem';
 import CartResult from './CartResult';
 
-export default class Cart extends Component {
+class Cart extends Component {
   render() {
     return (
       <section className="section">
@@ -30,3 +30,5 @@ export default class Cart extends Component {
     )
   }
 }
+
+export default Cart;
