@@ -26,10 +26,10 @@ class Products extends Component {
   }
 }
 
+
 const mapStateToProps = (state) => {
   return {
     products: state.products
   };
 }
-
 export default connect(mapStateToProps, null)(Products);

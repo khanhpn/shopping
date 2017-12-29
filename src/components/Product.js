@@ -38,11 +38,11 @@ class Product extends Component {
     )
   }
 
-  showRatings(ratings) {
+  showRatings(rating) {
     var result = [];
-    if (ratings > 0) {
-      for (let i = 1; i <= ratings; i++) {
-        result.push(<i className="fa fa-star"></i>);
+    if (rating > 0) {
+      for (let i = 1; i <= rating; i++) {
+        result.push(<i className='fa fa-star' key={i}></i>);
       }
     }
     return result;
